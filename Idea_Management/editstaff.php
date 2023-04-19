@@ -70,7 +70,7 @@
 <body>
   <?php
   include_once "header.php";
-  include_once("config.php"); // Kết nối đến cơ sở dữ liệu
+  include_once("config.php");
   function bind_Department_List($conn, $selectedValue)
   {
     $sqlString = "SELECT * from department";
@@ -176,7 +176,7 @@
       <input type="button" value="Cancel" onclick="window.location='stafflist.php'" />
     </form>
   <?php
-    if (isset($_POST["btnUpdate"])) { // Kiểm tra xem form đã được submit hay chưa
+    if (isset($_POST["btnUpdate"])) { 
       $fullname = $_POST["fullname"];
       $gender = $_POST['gender'];
       $role = $_POST['role'];

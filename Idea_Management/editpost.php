@@ -86,7 +86,7 @@
 <body>
   <h1>Edit Post</h1>
   <?php
-  include_once("config.php"); // Kết nối đến cơ sở dữ liệu
+  include_once("config.php"); 
   function bind_Category_List($conn, $selectedValue)
   {
     $sqlString = "SELECT * from category";
@@ -157,7 +157,7 @@
       <input type="button" value="Cancel" onclick="window.location='listpost.php'" />
     </form>
   <?php
-    if (isset($_POST["btnUpdate"])) { // Kiểm tra xem form đã được submit hay chưa
+    if (isset($_POST["btnUpdate"])) { 
       $title = $_POST["title"];
       $category = $_POST['CategoryList'];
       $department = $_POST['DepartmentList'];
@@ -174,7 +174,7 @@
       department_Id='$department',
       category_Id = '$category'
       where post_Id ='$id'";
-      if (mysqli_query($conn, $sqlstring)) { // Thực hiện truy vấn SQL để thêm sản phẩm mới vào cơ sở dữ liệu
+      if (mysqli_query($conn, $sqlstring)) { 
         echo "Add successfully";
       }
     }

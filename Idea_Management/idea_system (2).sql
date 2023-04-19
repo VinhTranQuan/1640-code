@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2023 at 09:14 AM
+-- Generation Time: Apr 18, 2023 at 09:45 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `idea_management`
+-- Database: `idea_system`
 --
 
 -- --------------------------------------------------------
@@ -46,9 +46,7 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`account_Id`, `fullname`, `email`, `gender`, `date_of_birth`, `address`, `phone`, `password`, `department_Id`, `role`) VALUES
 (1, 'Vinh', 'admin@gmail.com', 'Other', '2023-03-27', 'TP.Can Tho', '021352876', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),
-(2, 'Duong Vu Tuong', 'staff@gmail.com', '', '2023-04-03', '', '', 'e10adc3949ba59abbe56e057f20f883e', 1, 0),
-(5, 'Nhan', 'nhan@gmail.com', 'Other', '0000-00-00', 'TP.Can Tho', '0215781', 'e10adc3949ba59abbe56e057f20f883e', 1, 0),
-(6, 'Dat', 'dat@gmail.com', 'Male', '0000-00-00', 'TP.Can Tho', '0125485220', 'e10adc3949ba59abbe56e057f20f883e', 0, 1);
+(9, 'Tran Quan Vinh', 'staff@gmail.com', 'Male', '0000-00-00', 'ca mau', '0914593431', 'e10adc3949ba59abbe56e057f20f883e', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -66,11 +64,8 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`category_Id`, `categoryName`) VALUES
-(1, 'Event1'),
-(2, 'Opinions about teaching'),
-(3, 'Infrastructure'),
-(4, 'Club'),
-(5, 'Workshop');
+(1, 'Event'),
+(2, 'Study');
 
 -- --------------------------------------------------------
 
@@ -83,24 +78,16 @@ CREATE TABLE `comment` (
   `content` text NOT NULL,
   `feedback_Id` int(11) NOT NULL,
   `date_comment` date NOT NULL DEFAULT current_timestamp(),
-  `account_Id` int(11) NOT NULL
+  `account_Id` int(11) NOT NULL,
+  `active` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `comment`
 --
 
-INSERT INTO `comment` (`comment_Id`, `content`, `feedback_Id`, `date_comment`, `account_Id`) VALUES
-(10, 'may noi qua dung luon', 24, '2023-04-07', 1),
-(11, 'tao cung nghi vay', 24, '2023-04-07', 1),
-(12, 'tru luong', 24, '2023-04-07', 7),
-(13, 'tao da thay', 24, '2023-04-07', 7),
-(14, 'chuẩn bị thất nghiệp hết nhe!', 24, '2023-04-07', 7),
-(16, 'âssssssssssssssss', 17, '2023-04-07', 1),
-(17, 'ké sao t nạp 20k r mà không nhận được giftcode', 25, '2023-04-08', 7),
-(18, 'test1', 26, '2023-04-10', 1),
-(19, 'asasa', 27, '2023-04-10', 1),
-(20, 'test1', 27, '2023-04-10', 1);
+INSERT INTO `comment` (`comment_Id`, `content`, `feedback_Id`, `date_comment`, `account_Id`, `active`) VALUES
+(22, 'OK', 34, '2023-04-15', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -118,8 +105,8 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`department_Id`, `departmentName`) VALUES
-(0, 'Bussiness'),
-(1, 'Computer');
+(1, 'Computer research'),
+(2, 'Bussiness');
 
 -- --------------------------------------------------------
 
@@ -141,18 +128,14 @@ CREATE TABLE `feedback` (
   `anonymous` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `idea`
+-- Dumping data for table `feedback`
 --
 
-CREATE TABLE `idea` (
-  `idea_Id` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `thumb_up` bigint(20) NOT NULL,
-  `thumb_down` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `feedback` (`feedback_Id`, `post_Id`, `department_Id`, `file_path`, `file_name`, `date_submited`, `feedback`, `likes`, `liked_by`, `account_Id`, `anonymous`) VALUES
+(33, 34, 1, 0x75706c6f6164732f6d696c6577736b615f74686520652d636f6d6d657263655f36302d32303139202831292e706466, 'milewska_the e-commerce_60-2019 (1).pdf', '2023-04-14 09:24:07', 'submit idea\r\n', 0, '', 2, 'anonymous'),
+(34, 35, 4, 0x75706c6f6164732f6d696c6577736b615f74686520652d636f6d6d657263655f36302d32303139202831292e706466, 'milewska_the e-commerce_60-2019 (1).pdf', '2023-04-15 08:10:12', 'I agree create an event for the holiday', 1, '[\"Quan Vinh\"]', 8, 'anonymous'),
+(35, 41, 1, 0x75706c6f6164732f6d696c6577736b615f74686520652d636f6d6d657263655f36302d32303139202831292e706466, 'milewska_the e-commerce_60-2019 (1).pdf', '2023-04-15 09:28:21', 'I agree organize an event for the holiday of 8/3', 0, '', 1, 'anonymous');
 
 -- --------------------------------------------------------
 
@@ -167,46 +150,22 @@ CREATE TABLE `post` (
   `department_Id` int(11) NOT NULL,
   `date_create` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `date_ending` datetime NOT NULL,
+  `date_end_read` datetime NOT NULL,
   `content` text NOT NULL,
-  `account_Id` int(11) NOT NULL
+  `account_Id` int(11) NOT NULL,
+  `active` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`post_Id`, `title`, `category_Id`, `department_Id`, `date_create`, `date_ending`, `content`, `account_Id`) VALUES
-(30, 'âsas', 1, 1, '2023-04-06 08:30:37', '2023-04-06 15:30:00', 'aaaaaaaaaaaa', 1),
-(31, '31', 3, 1, '2023-04-06 08:42:14', '2023-04-06 15:42:00', '31', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `staff`
---
-
-CREATE TABLE `staff` (
-  `staff_Id` int(11) NOT NULL,
-  `fullName` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `date_of_birth` datetime NOT NULL,
-  `gender` int(11) NOT NULL,
-  `phone` varchar(30) NOT NULL,
-  `position` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `thumbup`
---
-
-CREATE TABLE `thumbup` (
-  `thumbUp_Id` int(11) NOT NULL,
-  `account_Id` int(11) NOT NULL,
-  `feedback_Id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `post` (`post_Id`, `title`, `category_Id`, `department_Id`, `date_create`, `date_ending`, `date_end_read`, `content`, `account_Id`, `active`) VALUES
+(41, 'Create an event for the holiday of 8/3', 1, 4, '2023-04-17 09:38:34', '2023-04-27 23:59:00', '2023-04-27 23:59:00', 'Organize an event for the holiday of 8/3', 1, 0),
+(42, 'aaaaaaaaa', 7, 1, '2023-04-15 09:51:20', '2023-04-21 16:51:00', '2023-04-22 16:51:00', 'aaaaaaaa', 1, 0),
+(43, 'ccccccccccccc', 8, 1, '2023-04-15 09:52:55', '2023-04-15 16:52:00', '2023-04-15 16:52:00', 'aaaaaaaaaaaacccccc', 1, 0),
+(44, 'Event of school', 1, 1, '2023-04-15 10:00:11', '2023-04-16 17:00:00', '2023-04-16 17:00:00', 'aaaaaaa', 1, 0),
+(46, 'Create an event for the holiday of 8/3', 1, 1, '2023-04-17 00:41:17', '2023-04-27 23:59:00', '2023-04-27 23:59:00', 'Create an event for the holiday of 8/3', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -216,7 +175,8 @@ CREATE TABLE `thumbup` (
 -- Indexes for table `account`
 --
 ALTER TABLE `account`
-  ADD PRIMARY KEY (`account_Id`);
+  ADD PRIMARY KEY (`account_Id`),
+  ADD KEY `department_Id` (`department_Id`);
 
 --
 -- Indexes for table `category`
@@ -228,37 +188,28 @@ ALTER TABLE `category`
 -- Indexes for table `comment`
 --
 ALTER TABLE `comment`
-  ADD PRIMARY KEY (`comment_Id`);
+  ADD PRIMARY KEY (`comment_Id`),
+  ADD KEY `feedback_Id` (`feedback_Id`,`account_Id`);
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`department_Id`);
 
 --
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`feedback_Id`);
-
---
--- Indexes for table `idea`
---
-ALTER TABLE `idea`
-  ADD PRIMARY KEY (`idea_Id`);
+  ADD PRIMARY KEY (`feedback_Id`),
+  ADD KEY `post_Id` (`post_Id`,`department_Id`,`account_Id`);
 
 --
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
-  ADD PRIMARY KEY (`post_Id`);
-
---
--- Indexes for table `staff`
---
-ALTER TABLE `staff`
-  ADD PRIMARY KEY (`staff_Id`);
-
---
--- Indexes for table `thumbup`
---
-ALTER TABLE `thumbup`
-  ADD PRIMARY KEY (`thumbUp_Id`);
+  ADD PRIMARY KEY (`post_Id`),
+  ADD KEY `category_Id` (`category_Id`,`department_Id`,`account_Id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -268,49 +219,37 @@ ALTER TABLE `thumbup`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `account_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `category_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `comment_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `department_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
---
--- AUTO_INCREMENT for table `idea`
---
-ALTER TABLE `idea`
-  MODIFY `idea_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `feedback_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
---
--- AUTO_INCREMENT for table `staff`
---
-ALTER TABLE `staff`
-  MODIFY `staff_Id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `thumbup`
---
-ALTER TABLE `thumbup`
-  MODIFY `thumbUp_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

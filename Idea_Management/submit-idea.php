@@ -32,47 +32,47 @@ if (isset($_GET['id'])) {
   </div>
 <?php }
 
-// Kiểm tra xem biểu mẫu đã được gửi đi chưa
+
 if (isset($_POST['postIdea'])) {
 
-  // Lấy thông tin file
+  
   $file_name = $_FILES['file']['name'];
   $temp_file = $_FILES['file']['tmp_name'];
   $file_size = $_FILES['file']['size'];
   $file_type = $_FILES['file']['type'];
 
-  // Đường dẫn lưu file trên server
+ 
   $target_dir = "uploads/";
   $target_file = $target_dir . basename($file_name);
 
-  // Mảng các loại file được phép tải lên
+  
   $allowed_types = array('application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'text/plain');
 
-  // Kiểm tra xem file được tải lên có thuộc các loại được phép không
+  
   if (in_array($file_type, $allowed_types)) {
-    // Di chuyển file từ thư mục tạm đến thư mục lưu trữ trên server
+    
     if (move_uploaded_file($temp_file, $target_file)) {
-      // Lấy các giá trị từ biểu mẫu
+   
       $anonymous = $_POST['anonymous'];
       $feedback = $_POST['feedback'];
 
-      // Thêm thông tin vào cơ sở dữ liệu
+      
       $sql = "INSERT INTO feedback (post_Id, anonymous, feedback, file_name, file_path, department_Id, account_Id, likes) 
       VALUES ('$id', '$anonymous', '$feedback', '$file_name', '$target_file', '$department', '$account', '0')";
 
       if (mysqli_query($conn, $sql)) {
         echo '<meta http-equiv="refresh" content="0;"';
       } else {
-        echo "Lỗi: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
       }
     } else {
-      echo "Lỗi khi tải lên tệp tin.";
+      echo "Error when download file.";
     }
   } else {
-    echo "Loại tệp tin không được phép.";
+    echo "Error file type.";
   }
 
-  // Đóng kết nối đến cơ sở dữ liệu
+ 
   mysqli_close($conn);
 }
 

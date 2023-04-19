@@ -107,7 +107,7 @@
       $(document).ready(function() { 
       swal({
         title: 'Susscess!',
-        text: 'Add thành công',
+        text: 'Add successfully',
         icon: 'susscess',
         button: 'OK',
       }).then(function() {
@@ -121,7 +121,7 @@
       $(document).ready(function() { 
       swal({
         title: 'Error!',
-        text: 'Add không thành công',
+        text: 'Add successfully',
         icon: 'error',
         button: 'OK',
       }).then(function() {
